@@ -7,38 +7,36 @@
 //
 
 #import "MayorViewController.h"
+#import "LoginAlertView.h"
 
 @implementation MayorViewController
 
-@synthesize locationTextField, spentLabel, messageLabel;
+@synthesize locationTextField, spentField, messageLabel, charsLabel;
 
 - (void)dealloc {
 	[locationTextField release];
-	[spentLabel release];
+	[spentField release];
 	[messageLabel release];
-	[baseMessageString release];
+	[charsLabel release];	
+	[username release];
+	[password release];
     [super dealloc];
 }
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-	
-	baseMessageString = @"I became mayor of %@ on %@ where I spent %@";
-	[baseMessageString retain];
-	
+- (void)viewDidLoad {	
     [super viewDidLoad];
+	
+	//register for text field change notifications
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(formatTweet) 
+												 name:UITextFieldTextDidChangeNotification 
+											   object:nil];
 }
 
 #pragma mark -
 #pragma mark UITextFieldDelegate methods
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-	
-	
-	
-	return YES;
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
@@ -46,28 +44,93 @@
 }
 
 #pragma mark -
-#pragma mark IBAction methods
+#pragma mark UIAlertViewDelegate and auth methods
+
+- (void)showAuthenticationDialog {	
+	LoginAlertView *login = [[LoginAlertView alloc] initWithTitle:@"Twitter Login" delegate:self];
+	[login show];
+	[login release];	
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 1) {
+		LoginAlertView *login = (LoginAlertView *)alertView;
+		
+		if ([login.usernameTextField.text length] > 0 && [login.passwordTextField.text length] > 0) {
+			username = login.usernameTextField.text;
+			password = login.passwordTextField.text;	
+			[username retain];
+			[password retain];
+						
+			[self postMayoralStatus];
+		}									  
+	}
+}
+
+#pragma mark -
+#pragma mark IBAction and Tweet methods
 
 - (IBAction) spentChangeButtonWasPressed {
 
 }
 
 - (IBAction) sendButtonWasPressed {
+	[self postMayoralStatus];
+}
+
+//Create the text that will be tweeted based on the location and money spent text fields
+//along with today's date.
+- (void)formatTweet {
 	
-}
-
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+	NSString *location = self.locationTextField.text;	
 	
-	// Release any cached data, images, etc that aren't in use.
+	[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4]; //means "set formatter behavior to 10.4+ behavior"
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+	NSDate *date = [NSDate date];	
+	NSString *formattedDateString = [dateFormatter stringFromDate:date];	
+	
+	NSString *spent = [NSString stringWithFormat:@"$%@", ([self.spentField.text length] > 0 ? self.spentField.text : @"0.00")];
+	
+	NSString *tweet = [NSString stringWithFormat:@"I became mayor of %@ on %@ where I spent %@.", location, formattedDateString, spent];
+		
+	self.messageLabel.text = tweet;
+	self.charsLabel.text = [NSString stringWithFormat:@"%i", [tweet length]];	
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+
+- (void)postMayoralStatus {
+	if (username == nil || password == nil) {
+		[self showAuthenticationDialog];
+		return;
+	}
+	
+	NSURL *url = [NSURL URLWithString:@"https://twitter.com/statuses/update.json"];
+	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+	[request setUsername:username];
+	[request setPassword:password];
+	[request setPostValue:self.messageLabel.text forKey:@"status"];
+	[request setDelegate:self];
+	[request setDidFinishSelector:@selector(requestDone:)];
+	[request setDidFailSelector:@selector(requestWentWrong:)];
+	[request start];	
 }
 
+- (void)requestDone:(ASIHTTPRequest *)request {
+	NSString *response = [request responseString];
+	NSLog(@"Status update succeeded: %@", response);
+}
+
+- (void)requestWentWrong:(ASIHTTPRequest *)request {
+	NSError *error = [request error];
+	NSLog(@"Status update failure: %@",[error localizedDescription]);
+	
+	if ([[error localizedDescription] isEqualToString:@"Authentication needed"]) {
+		username = nil;
+		password = nil;
+		[self showAuthenticationDialog];
+	}
+}
 
 @end

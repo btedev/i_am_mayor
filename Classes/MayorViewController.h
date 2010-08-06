@@ -7,17 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIFormDataRequest.h"
 
-@interface MayorViewController : UIViewController <UITextFieldDelegate> {
-	NSString *baseMessageString;
+@interface MayorViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate> {	
+	NSString *username;
+	NSString *password;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *locationTextField;
-@property (nonatomic, retain) IBOutlet UILabel *spentLabel;
+@property (nonatomic, retain) IBOutlet UITextField *spentField;
 @property (nonatomic, retain) IBOutlet UILabel *messageLabel;
+@property (nonatomic, retain) IBOutlet UILabel *charsLabel;
 
 - (IBAction) spentChangeButtonWasPressed;
 - (IBAction) sendButtonWasPressed;
+- (void)showAuthenticationDialog;
+- (void)formatTweet;
+- (void)postMayoralStatus;
+- (void)requestDone:(ASIHTTPRequest *)request;
+- (void)requestWentWrong:(ASIHTTPRequest *)request;
 
 @end
 
