@@ -90,7 +90,7 @@
 	
 	NSString *spent = [self formatAsCurrency:([self.spentField.text length] > 0 ? self.spentField.text : @"0.0")];
 	
-	NSString *tweet = [NSString stringWithFormat:@"I became mayor of %@ on %@ where I spent %@.", location, formattedDateString, spent];
+	NSString *tweet = [NSString stringWithFormat:NSLocalizedString(@"Tweet",nil), location, formattedDateString, spent];
 		
 	self.messageLabel.text = tweet;
 	self.charsLabel.text = [NSString stringWithFormat:@"%i", [tweet length]];	

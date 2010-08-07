@@ -10,6 +10,24 @@ Internationalization and Localization Steps
 
 1.  Date formatter was internationalized by default.  Created formatAsCurrency: to parse the "spent" field into a decimal then format it as a string according to the locale.
 
+2.  Right-clicked MayorViewController.xib > Get Info > Make File Localizable. File now has a disclosure arrow beside it that reveals "English".  
+
+3.  Added Swedish by right-clicking MayorVC.xib > Get Info > General > Add Localization.  The dropdown list only has a few languages (none Swedish).  This is OK, just type the correct two-char country designation ("sv") from this list http://www.loc.gov/standards/iso639-2/php/English_list.php .  Somewhat awkwardly, they two localizations are now "English" and "sv" but it all works.
+
+4.  Opened the sv version of MainViewController.xib in IB and changed strings to Swedish versions.  If working with a bigger team, it may be worthwhile to use the "ibtool generate-stringsfile" which will create a textfile similar to a localizable.strings file which you could later merge back with "ibtool --write".  See Apple's "Interface Builder User Guide" under the Localization section for more details. 
+
+5.  Localized "Send" image by performing the same basic steps as in #3 on "image_send.png" and "image_send@2x.png".  Updated the Opacity project to output English and Swedish versions of this image in the correct directories.  
+
+6.  Tweet text was still English so created a Localizable.strings file for this and "username" and "password".  Right-clicked Resources > Add File > Mac OS X > Resource > Strings file named "Localizable.strings".  Unlike many files in XCode, this must be named precisely.  Make localizalbe in English and Swedish like in step #3.
+
+7.  Added all strings that will be made localizable to English file first in form:
+
+"Some string in code" = "Localized version of string";
+
+8.  Changed hard-coded string literals that require translation to use form:
+
+NSLocalizedString(@"username", @"username")
+
 
 The MIT License
 ---------------

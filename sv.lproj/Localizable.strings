@@ -1,0 +1,14 @@
+/* 
+   Localizable.strings
+   NowIAmMayor
+
+   Created by Barry Ezell on 8/7/10.
+   Copyright 2010 Dockmarket LLC. All rights reserved.
+ */
+
+
+"username" = "användarnamn";
+
+"password" = "lösenord";
+
+"Tweet" = "Jag blev borgmästare av %@ den %@ där jag spenderade %@.";

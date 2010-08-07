@@ -24,13 +24,13 @@
 	if (self) {
 		usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 50.0, 260.0, 25.0)]; 
 		[usernameTextField setBackgroundColor:[UIColor whiteColor]];
-		[usernameTextField setPlaceholder:@"username"];
+		[usernameTextField setPlaceholder:NSLocalizedString(@"username", @"username")];
 		[usernameTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 		[self addSubview:usernameTextField];
 		
 		passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 85.0, 260.0, 25.0)]; 
 		[passwordTextField setBackgroundColor:[UIColor whiteColor]];
-		[passwordTextField setPlaceholder:@"password"];
+		[passwordTextField setPlaceholder:NSLocalizedString(@"password", @"password")];
 		[passwordTextField setSecureTextEntry:YES];
 		[self addSubview:passwordTextField];	
 	}
