@@ -19,10 +19,10 @@
 @property (nonatomic, retain) IBOutlet UILabel *messageLabel;
 @property (nonatomic, retain) IBOutlet UILabel *charsLabel;
 
-- (IBAction) spentChangeButtonWasPressed;
 - (IBAction) sendButtonWasPressed;
 - (void)showAuthenticationDialog;
 - (void)formatTweet;
+- (NSString *)formatAsCurrency:(NSString *)string;
 - (void)postMayoralStatus;
 - (void)requestDone:(ASIHTTPRequest *)request;
 - (void)requestWentWrong:(ASIHTTPRequest *)request;

@@ -25,6 +25,14 @@
     // Add the view controller's view to the window and display.
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
+	
+	//log the current language and locale
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSArray *languages = [defaults objectForKey:@"AppleLanguages"];
+	NSLog(@"current language: %@",[languages objectAtIndex:0]);
+	
+	NSLocale *currentLocale = [NSLocale currentLocale];
+	NSLog(@"current locale: %@", [currentLocale localeIdentifier]);
 
     return YES;
 }

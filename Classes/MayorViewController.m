@@ -46,8 +46,8 @@
 #pragma mark -
 #pragma mark UIAlertViewDelegate and auth methods
 
-- (void)showAuthenticationDialog {	
-	LoginAlertView *login = [[LoginAlertView alloc] initWithTitle:@"Twitter Login" delegate:self];
+- (void)showAuthenticationDialog {
+	LoginAlertView *login = [[LoginAlertView alloc] initWithTitle:@"Twitter" delegate:self];
 	[login show];
 	[login release];	
 }
@@ -70,10 +70,6 @@
 #pragma mark -
 #pragma mark IBAction and Tweet methods
 
-- (IBAction) spentChangeButtonWasPressed {
-
-}
-
 - (IBAction) sendButtonWasPressed {
 	[self postMayoralStatus];
 }
@@ -84,14 +80,15 @@
 	
 	NSString *location = self.locationTextField.text;	
 	
-	[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4]; //means "set formatter behavior to 10.4+ behavior"
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4]; //means "set formatter behavior to OS 10.4+ behavior"
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
 	NSDate *date = [NSDate date];	
-	NSString *formattedDateString = [dateFormatter stringFromDate:date];	
+	NSString *formattedDateString = [dateFormatter stringFromDate:date];
+	[dateFormatter release];
 	
-	NSString *spent = [NSString stringWithFormat:@"$%@", ([self.spentField.text length] > 0 ? self.spentField.text : @"0.00")];
+	NSString *spent = [self formatAsCurrency:([self.spentField.text length] > 0 ? self.spentField.text : @"0.0")];
 	
 	NSString *tweet = [NSString stringWithFormat:@"I became mayor of %@ on %@ where I spent %@.", location, formattedDateString, spent];
 		
@@ -99,6 +96,32 @@
 	self.charsLabel.text = [NSString stringWithFormat:@"%i", [tweet length]];	
 }
 
+//Given a valid numeric string, return a locale-specific currency string.
+//Examples: "5.23" in en_US will return "$5.23"
+//"5,23" in sv_SE will return "5,23 sk"
+- (NSString *)formatAsCurrency:(NSString *)string {
+	
+	//Note: Apple's docs are incorrect on NSDecimalNumber on iOS.  Docs state that locale doesn't need to be explicitly
+	//set unless you need to override.  In my tests, it does not accept comma as a valid NSDecimalSeparator unless the locale
+	//is passed as an argument.  Other devs have confirmed this behavior.
+	NSDecimalNumber *amount;	
+	@try {		
+		amount = [NSDecimalNumber decimalNumberWithString:string locale:[NSLocale currentLocale]];		
+	}
+	@catch (NSException * e) {
+		amount = [NSDecimalNumber decimalNumberWithString:@"0.0" locale:[NSLocale currentLocale]];
+	}
+	@finally {		
+	}
+	
+	NSNumberFormatter *curFormat = [[NSNumberFormatter alloc] init];
+	[curFormat setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[curFormat setNumberStyle:NSNumberFormatterCurrencyStyle];
+	NSString *formattedString = [curFormat stringFromNumber:amount];
+	[curFormat release];
+	
+	return formattedString;
+}
 
 - (void)postMayoralStatus {
 	if (username == nil || password == nil) {

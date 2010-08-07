@@ -5,6 +5,12 @@ Small example of addressing internationalization, localization, and accessibilit
 
 The completed project will have at least two significant tags for "non-i18n" (the ugly American version) and later one or more versions localized to non-English languages.
 
+Internationalization and Localization Steps
+--------------------------
+
+1.  Date formatter was internationalized by default.  Created formatAsCurrency: to parse the "spent" field into a decimal then format it as a string according to the locale.
+
+
 The MIT License
 ---------------
 
