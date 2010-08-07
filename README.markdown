@@ -22,11 +22,11 @@ Internationalization and Localization Steps
 
 7.  Added all strings that will be made localizable to English file first in form:
 
-"Some string in code" = "Localized version of string";
+    "Some string in code" = "Localized version of string";
 
 8.  Changed hard-coded string literals that require translation to use form:
 
-NSLocalizedString(@"username", @"username")
+    NSLocalizedString(@"username", @"username")
 
 
 The MIT License
