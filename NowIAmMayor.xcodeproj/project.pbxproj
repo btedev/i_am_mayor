@@ -14,6 +14,7 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* MayorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MayorViewController.m */; };
+		4C42834C120F7E7F0057A724 /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 4C42834B120F7E7F0057A724 /* README.markdown */; };
 		4C47B2AC120DA41700604FC8 /* MayorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C47B2AB120DA41700604FC8 /* MayorViewController.xib */; };
 		4C47B2CB120DA83500604FC8 /* image_send.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C47B2CA120DA83500604FC8 /* image_send.png */; };
 		4C47B2CE120DA8C100604FC8 /* image_send@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C47B2CD120DA8C100604FC8 /* image_send@2x.png */; };
@@ -48,6 +49,7 @@
 		28D7ACF70DDB3853001CB0EB /* MayorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MayorViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* NowIAmMayor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowIAmMayor_Prefix.pch; sourceTree = "<group>"; };
+		4C42834B120F7E7F0057A724 /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
 		4C47B2A2120DA2A100604FC8 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MayorViewController.xib; sourceTree = "<group>"; };
 		4C47B2AF120DA4D200604FC8 /* sv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sv; path = sv.lproj/MayorViewController.xib; sourceTree = "<group>"; };
 		4C47B2CC120DA89200604FC8 /* sv */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sv; path = sv.lproj/image_send.png; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				4C42834B120F7E7F0057A724 /* README.markdown */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -271,6 +274,7 @@
 				4CCD4CE1120B74A0007ADC49 /* icon@2x.png in Resources */,
 				4C47B2AC120DA41700604FC8 /* MayorViewController.xib in Resources */,
 				4C47B2E0120DAA5600604FC8 /* Localizable.strings in Resources */,
+				4C42834C120F7E7F0057A724 /* README.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

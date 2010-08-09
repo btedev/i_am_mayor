@@ -114,11 +114,19 @@
 	@finally {		
 	}
 	
+	//iOS4 has a newer and shorter method for formatting localized numbers.
+	//Both the newer and older formats are available below:
+	NSString *formattedString;
+	
+#ifdef __IPHONE_4_0
+	formattedString = [NSNumberFormatter localizedStringFromNumber:amount numberStyle:NSNumberFormatterCurrencyStyle];
+#else
 	NSNumberFormatter *curFormat = [[NSNumberFormatter alloc] init];
 	[curFormat setFormatterBehavior:NSNumberFormatterBehavior10_4];
 	[curFormat setNumberStyle:NSNumberFormatterCurrencyStyle];
 	NSString *formattedString = [curFormat stringFromNumber:amount];
 	[curFormat release];
+#endif	
 	
 	return formattedString;
 }
@@ -150,6 +158,8 @@
 	NSLog(@"Status update failure: %@",[error localizedDescription]);
 	
 	if ([[error localizedDescription] isEqualToString:@"Authentication needed"]) {
+		[username release];
+		[password release];
 		username = nil;
 		password = nil;
 		[self showAuthenticationDialog];

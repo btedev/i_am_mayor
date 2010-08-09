@@ -27,6 +27,8 @@ Internationalization and Localization Steps
 8.  Changed hard-coded string literals that require translation to use form:
 
     NSLocalizedString(@"username", @"username")
+	
+9.  Examined accessibility via VoiceOver by enabling in Settings.  The only significant problem was the "Send" button which didn't have a useful description.  Changed this through the English and sv .xibs by setting the Accessibility label to "Send" or "Skicka".
 
 
 The MIT License
