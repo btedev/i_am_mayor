@@ -104,14 +104,11 @@
 	//Note: Apple's docs are incorrect on NSDecimalNumber on iOS.  Docs state that locale doesn't need to be explicitly
 	//set unless you need to override.  In my tests, it does not accept comma as a valid NSDecimalSeparator unless the locale
 	//is passed as an argument.  Other devs have confirmed this behavior.
-	NSDecimalNumber *amount;	
-	@try {		
-		amount = [NSDecimalNumber decimalNumberWithString:string locale:[NSLocale currentLocale]];		
-	}
-	@catch (NSException * e) {
+	NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString:string locale:[NSLocale currentLocale]];		
+	
+	//The above method won't throw an exception if a non-decimal is entered but amount will be NaN.  
+	if (amount == [NSDecimalNumber notANumber]) {
 		amount = [NSDecimalNumber decimalNumberWithString:@"0.0" locale:[NSLocale currentLocale]];
-	}
-	@finally {		
 	}
 	
 	//iOS4 has a newer and shorter method for formatting localized numbers.
@@ -119,7 +116,8 @@
 	NSString *formattedString;
 	
 #ifdef __IPHONE_4_0
-	formattedString = [NSNumberFormatter localizedStringFromNumber:amount numberStyle:NSNumberFormatterCurrencyStyle];
+	formattedString = [NSNumberFormatter localizedStringFromNumber:amount 
+													   numberStyle:NSNumberFormatterCurrencyStyle];
 #else
 	NSNumberFormatter *curFormat = [[NSNumberFormatter alloc] init];
 	[curFormat setFormatterBehavior:NSNumberFormatterBehavior10_4];
